@@ -7,6 +7,7 @@ function LaunchPage()
 {
     launchPageThis = this;
     activeTab = "DashBoard";
+    searchParams = null;
 }
 LaunchPage.prototype = {
 
@@ -17,22 +18,29 @@ LaunchPage.prototype = {
     },
     InitEvents: function ()
     {
-        $("#ifmMain").attr("src", _mapPageUrl);
+        searchParams = new URLSearchParams(window.location.search)
+        var customerName = searchParams.get('CustomerName')
+
+        $("#ifmMain").attr("src", _mapPageUrl + "?CustomerName=" + customerName);
 
         $("#Search").keyup(function () {
             launchPageThis.SearchMenu();
         });
 
+        $('#logout').click(function () {
+            window.location.replace(_loginUrl);
+        });
+
         $('#liDashBoard').click(function () {
             if (activeTab != "DashBoard")
-                $("#ifmMain").attr("src", _mapPageUrl);
+                $("#ifmMain").attr("src", _mapPageUrl + "?CustomerName=" + customerName);
             activeTab = "DashBoard"
         });
 
         $('#liVehicles').click(function ()
         {
             if (activeTab == "DashBoard")
-                $("#ifmMain").attr("src", _vehicleUrl);
+                $("#ifmMain").attr("src", _vehicleUrl + "?CustomerName=" + customerName);
             activeTab = "Vehicle";
         });
     },

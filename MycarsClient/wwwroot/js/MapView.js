@@ -8,14 +8,20 @@ function MapView() {
     map = null;
     mapdata = null;
     helper = new Helper();
+    CustomerName = null;
 }
-MapView.prototype = {
-    Init: function () {
+MapView.prototype =
+{
+    Init: function ()
+    {
+        var searchParams = new URLSearchParams(window.location.search)
+        CustomerName = searchParams.get('CustomerName')
         mapViewThis.GetMapData();
         mapViewThis.InitiateMap();
     },
     GetMapData: function () {
-        helper.AjaxGet("GetMapData", function (json) {
+
+        helper.AjaxPost("GetMapData", CustomerName, function (json) {
             mapdata = json;
         });
     },
@@ -109,8 +115,11 @@ MapView.prototype = {
                 while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                 }
-                var design = "<h6 style='margin-bottom:3px'>Vin : " + vin + "</h6><h6 style='margin-bottom:3px'>Driver Name : " + Driver + "</h6><h6 style='margin-bottom:3px'>License Plate Number : " + LicensePlateNumber + "</h6>" +
-                    "<h6 style='margin-bottom:3px'>Speed : " + speed + "</h6>";
+                var design = "<table><tbody><tr><th>Vin : </th><td>" + vin + "</td></tr>" +
+                    "<tr><th>Driver Name : </th><td>" + Driver + "</td></tr>" +
+                    "<tr><th>Plate Number : </th><td>" + LicensePlateNumber + "</td></tr>" +
+                    "<tr><th>Speed : </th><td>" + speed + "</td></tr>" +
+                    "</tbody></table>";
                 // Populate the popup and set its coordinates
                 // based on the feature found.
                 popup.setLngLat(coordinates).setHTML(design).addTo(map);
