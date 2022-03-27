@@ -59,59 +59,13 @@ MapView.prototype = {
     AddLayers: function () {
         map.addSource('cars', {
             type: 'geojson',
-            // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-            // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
             data: mapdata,
             cluster: true,
             clusterMaxZoom: 14, // Max zoom to cluster points on
-            clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+            clusterRadius: 50 // Radius of each cluster when clustering points
         });
 
-        //map.addLayer({
-        //    id: 'clusters',
-        //    type: 'circle',
-        //    source: 'cars',
-        //    filter: ['has', 'point_count'],
-        //    paint: {
-        //        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-        //        // with three steps to implement three types of circles:
-        //        //   * Blue, 20px circles when point count is less than 100
-        //        //   * Yellow, 30px circles when point count is between 100 and 750
-        //        //   * Pink, 40px circles when point count is greater than or equal to 750
-        //        'circle-color': [
-        //            'step',
-        //            ['get', 'point_count'],
-        //            '#51bbd6',
-        //            100,
-        //            '#f1f075',
-        //            750,
-        //            '#f28cb1'
-        //        ],
-        //        'circle-radius': [
-        //            'step',
-        //            ['get', 'point_count'],
-        //            20,
-        //            100,
-        //            30,
-        //            750,
-        //            40
-        //        ]
-        //    }
-        //});
        
-        //map.addLayer({
-        //    id: 'unclustered-point',
-        //    type: 'circle',
-        //    source: 'cars',
-        //    filter: ['!', ['has', 'point_count']],
-        //    paint: {
-        //        'circle-color': '#000000',
-        //        'circle-radius': 4,
-        //        'circle-stroke-width': 1,
-        //        'circle-stroke-color': '#fff'
-        //    }
-        //});
-
         map.addLayer({
             'id': 'cars',
             'type': 'circle',
@@ -145,6 +99,7 @@ MapView.prototype = {
             var vin = e.features[0].properties.VinNumber;
             var Driver = e.features[0].properties.DriverName;
             var LicensePlateNumber = e.features[0].properties.LicensePlateNumber;
+            var speed = e.features[0].properties.Speed;
             // Ensure that if the map is zoomed out such that multiple
             // copies of the feature are visible, the popup appears
             // over the copy being pointed to.            
@@ -154,7 +109,8 @@ MapView.prototype = {
                 while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                 }
-                var design = "<h6 style='margin-bottom:10px'>Vin : " + vin + "</h6><h6 style='margin-bottom:10px'>Driver Name : " + Driver + "</h6><h6 style='margin-bottom:10px'>License Plate Number : " + LicensePlateNumber +"</h6>"
+                var design = "<h6 style='margin-bottom:3px'>Vin : " + vin + "</h6><h6 style='margin-bottom:3px'>Driver Name : " + Driver + "</h6><h6 style='margin-bottom:3px'>License Plate Number : " + LicensePlateNumber + "</h6>" +
+                    "<h6 style='margin-bottom:3px'>Speed : " + speed + "</h6>";
                 // Populate the popup and set its coordinates
                 // based on the feature found.
                 popup.setLngLat(coordinates).setHTML(design).addTo(map);

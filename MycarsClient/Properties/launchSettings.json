@@ -18,7 +18,7 @@
     "MycarsClient": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5001/Pages/Launch.html",
+      "launchUrl": "http://localhost:5001/Pages/Login.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

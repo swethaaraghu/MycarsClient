@@ -4,40 +4,166 @@
     <meta charset="utf-8" />
     <title></title>
     <link href="../css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../js/dhtmlx.js"></script>
     <script src="../js/Common.js"></script>
     <script src="../js/Helper.js"></script>
     <script src="../js/Vehicles.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="col-12">
-        <div class="row">
-            <input id="inpSearch" type="text" class="searchBox" placeholder="Type vin number" name="search2">
+        <h2>Vehicles</h2>
+        <div style="display: flex;">
+            <input id="inpSearch" type="text" class="searchBox" placeholder="Type to search" name="search2">
             <button id="btnSearch" class="searchButton" type="submit"><i class="fa fa-search"></i></button>
             <button id="btnRefresh" class="searchButton" type="submit"><i class="fa fa-refresh"></i></button>
+            <button id="btnAdd" class="searchButton" type="submit"><i class="fa fa-plus"></i></button>
         </div>
-        <div class="row">
+        <div style="display: flex;">
             <div id="grdVehicles" style="height: 500px; width: 100%; margin-top:10px; margin-bottom:10px ">
-                <div class="row card" style="width: 100%; height: 50px; margin-bottom: 10px ">                   
-                        <div class="col-3" style="padding-left:5px; width: 100%;">
-                            <h4>Driver Name</h4>
-                        </div>
-                        <div class="col-3" style="width: 100%;">
-                            <h4>Vin Number</h4>
-                        </div>
-                        <div class="col-3" style="width: 100%;">
-                            <h4>Lincense plate</h4>
-                        </div>
-                        <div class="col-3" style="width: 100%;">
-                            <h4>Speed</h4>
-                        </div>                   
-
+                <div class="card" style="width: 100%; height: 50px; margin-bottom: 10px ;display: flex;">
+                    <div class="col-2" style="padding-left:5px; width: 100%;">
+                        <h4>Driver Name</h4>
+                    </div>
+                    <div class="col-3" style="width: 100%;">
+                        <h4>Vin Number</h4>
+                    </div>
+                    <div class="col-3" style="width: 100%;">
+                        <h4>Lincense plate</h4>
+                    </div>
+                    <div class="col-2" style="width: 100%;">
+                        <h4>Speed</h4>
+                    </div>
+                    <div class="col-2" style="width: 100%;">
+                        <h4>Office</h4>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
+    <div aria-hidden="false" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="mdlEditVehicle" class="modal fade" data-easein="expandIn" style="display: none;" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 50%">
+            <div class="modal-content CustomModel" style="width: 100%">
+                <div class="modal-header AnimatedPanel">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="icon-cross"></i></button>
+                    <h4 class="semi-bold"> Edit Vehicle </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="content CustomFormDesign">
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Driver Name </label>
+                                <input type="text" autocomplete="off" id="txtDriverName"
+                                       name="txtDriverName"
+                                       class="form-control input-xs" maxlength="150"
+                                       style="display: block;" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Vin Number<span class="text-danger">*</span>   </label>
+                                <input type="text" autocomplete="off" id="txtVin"
+                                       name="txtVin" disabled="disabled"
+                                       class="form-control input-xs" maxlength="17"
+                                       style="display: block;" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>License Plate Number </label>
+                                <input type="text" autocomplete="off" id="txtPlate"
+                                       name="txtPlate"
+                                       class="form-control input-xs" maxlength="15"
+                                       style="display: block;" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Speed</label>
+                                <input type="text" autocomplete="off" id="txtSpeed"
+                                       disabled="disabled"
+                                       name="txtSpeed"
+                                       class="form-control input-xs" maxlength="17"
+                                       style="display: block;" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Office</label>
+                                <input type="text" autocomplete="off" id="txtOffice"
+                                       name="txtOffice"
+                                       class="form-control input-xs" maxlength="15"
+                                       style="display: block;" />
+                            </div>
+                        </div>
+                        <label id="errormsg" style="color:red"></label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="CustomClose CustomButton" type="button">Close</button>
+                    <button class="CustomSucess CustomButton" type="button" id="btnSave">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div aria-hidden="false" aria-labelledby="myModal" role="dialog" tabindex="-1" id="mdlAddVehicle" class="modal fade" data-easein="expandIn" style="display: none;" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" style="width: 50%">
+            <div class="modal-content CustomModel" style="width: 100%">
+                <div class="modal-header AnimatedPanel">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="icon-cross"></i></button>
+                    <h4 class="semi-bold"> Add Vehicle </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="content CustomFormDesign">
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>Driver Name </label>
+                                <input type="text" autocomplete="off" id="txtDriverName"
+                                       name="txtDriverName"
+                                       class="form-control input-xs" maxlength="150"
+                                       style="display: block;" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Vin Number<span class="text-danger">*</span>   </label>
+                                <input type="text" autocomplete="off" id="txtVin"
+                                       name="txtVin"
+                                       class="form-control input-xs" maxlength="17"
+                                       style="display: block;" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-6">
+                                <label>License Plate Number </label>
+                                <input type="text" autocomplete="off" id="txtPlate"
+                                       name="txtPlate"
+                                       class="form-control input-xs" maxlength="15"
+                                       style="display: block;" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Office</label>
+                                <input type="text" autocomplete="off" id="txtOffice"
+                                       name="txtOffice"
+                                       class="form-control input-xs" maxlength="15"
+                                       style="display: block;" />
+                            </div>
+                        </div>
+                       
+                        <label id="errormsg" style="color:red"></label>
+                        <label id="successMsg" style="color:green"></label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="closed CustomClose CustomButton" type="button">Close</button>
+                    <button class="CustomSucess CustomButton" type="button" id="btnAdd">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         var init = new InitVehicles();
     </script>

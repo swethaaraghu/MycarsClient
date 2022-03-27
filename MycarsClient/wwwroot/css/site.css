@@ -137,13 +137,13 @@ body {
     font-size: 17px;
     border: 1px solid grey;
     float: left;
-    width: 80%;
+    width: 85%;
     background: #f1f1f1;
 }
 
 .searchButton {
     float: left;
-    width: 10%;
+    width: 5%;
     padding: 10px;
     background: #2196F3;
     color: white;
