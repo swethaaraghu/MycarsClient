@@ -145,8 +145,10 @@ Vehicles.prototype = {
         }
 
         helper.AjaxPatch("SaveEditedVehicle", JSON.stringify(vehicle), function (json) {
-            if (json == 1)
+            if (json == 1) {
+                $('#mdlEditVehicle #errormsg').text('');
                 alert("Changes Saved");
+            }
             else
                 alert("Error occured while Saving");
         });
